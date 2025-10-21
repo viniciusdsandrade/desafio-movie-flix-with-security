@@ -25,14 +25,14 @@ import static org.springframework.http.ResponseEntity.created;
 @RequestMapping(value = "/users")
 public class UserController {
 
-	private final UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PreAuthorize("hasAnyRole('VISITOR', 'MEMBER')")
-	@GetMapping(value = "/profile")
+    @GetMapping(value = "/profile")
     public ResponseEntity<UserDTO> getMe() {
         UserDTO me = userService.getMe();
         return ok(me);
