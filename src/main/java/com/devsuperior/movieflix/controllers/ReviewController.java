@@ -21,15 +21,22 @@ import static org.springframework.http.ResponseEntity.created;
 class ReviewController {
 
     private final ReviewService reviewService;
-    public ReviewController(ReviewService reviewService) { this.reviewService = reviewService; }
 
-    // 401 token inválido; 403 para VISITOR; 201 para MEMBER com dados válidos; 422 para dados inválidos (mapeado no ControllerAdvice do projeto)
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
+
     @PreAuthorize("hasRole('MEMBER')")
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReviewDTO> insert(@Valid @RequestBody ReviewDTO dto,
-                                            UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ReviewDTO> insert(
+            @RequestBody @Valid ReviewDTO dto,
+            UriComponentsBuilder uriBuilder
+    ) {
         ReviewDTO createdReview = reviewService.insert(dto);
-        URI uri = uriBuilder.path("/reviews/{id}").buildAndExpand(createdReview.getId()).toUri();
+        URI uri = uriBuilder
+                .path("/reviews/{id}")
+                .buildAndExpand(createdReview.getId())
+                .toUri();
         return created(uri).body(createdReview);
     }
 }

@@ -1,22 +1,24 @@
 package com.devsuperior.movieflix.entities;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.proxy.HibernateProxy;
+
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_review")
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "TEXT")
@@ -30,10 +32,6 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Review(){
-
-    }
-
     public Review(Long id, String text, Movie movie, User user) {
         this.id = id;
         this.text = text;
@@ -41,48 +39,19 @@ public class Review {
         this.user = user;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
         Review review = (Review) o;
-        return Objects.equals(id, review.id);
+        return getId() != null && Objects.equals(getId(), review.getId());
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public final int hashCode() {
+        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
 }
