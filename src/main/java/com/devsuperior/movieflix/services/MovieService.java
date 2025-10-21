@@ -1,7 +1,7 @@
 package com.devsuperior.movieflix.services;
 
-import com.devsuperior.movieflix.dto.MovieCardDTO;
-import com.devsuperior.movieflix.dto.MovieDetailsDTO;
+import com.devsuperior.movieflix.dto.movie.MovieCardDTO;
+import com.devsuperior.movieflix.dto.movie.MovieDetailsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;

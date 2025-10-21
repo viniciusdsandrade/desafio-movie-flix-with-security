@@ -1,11 +1,10 @@
 package com.devsuperior.movieflix.services.impl;
 
 import com.devsuperior.movieflix.dto.GenreDTO;
-import com.devsuperior.movieflix.dto.MovieCardDTO;
-import com.devsuperior.movieflix.dto.MovieDetailsDTO;
+import com.devsuperior.movieflix.dto.movie.MovieCardDTO;
+import com.devsuperior.movieflix.dto.movie.MovieDetailsDTO;
 import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.exceptions.ResourceNotFoundException;
-import com.devsuperior.movieflix.repositories.GenreRepository;
 import com.devsuperior.movieflix.repositories.MovieRepository;
 import com.devsuperior.movieflix.services.MovieService;
 import org.springframework.data.domain.Page;
