@@ -27,7 +27,7 @@ import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(jsr250Enabled = true)
+@EnableMethodSecurity
 public class ResourceServerConfig {
 
     @Value("${cors.origins}")
@@ -52,10 +52,8 @@ public class ResourceServerConfig {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(OPTIONS, "/**").permitAll()
                 .requestMatchers(POST, "/users").permitAll()
-                .requestMatchers(GET,
-                        "/categories/**",
-                        "/products/**"
-                ).permitAll()
+                .requestMatchers(GET, "/genres/**", "/movies/**").authenticated()
+                .requestMatchers(POST, "/reviews").authenticated()
                 .anyRequest().authenticated()
         );
 
@@ -68,28 +66,29 @@ public class ResourceServerConfig {
 
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("authorities");
-        grantedAuthoritiesConverter.setAuthorityPrefix("");
+        JwtGrantedAuthoritiesConverter granted = new JwtGrantedAuthoritiesConverter();
+        granted.setAuthoritiesClaimName("authorities");
+        granted.setAuthorityPrefix("");
 
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-        return jwtAuthenticationConverter;
+        JwtAuthenticationConverter conv = new JwtAuthenticationConverter();
+        conv.setJwtGrantedAuthoritiesConverter(granted);
+        conv.setPrincipalClaimName("username");
+
+        return conv;
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         String[] origins = corsOrigins.split(",");
+        CorsConfiguration cors = new CorsConfiguration();
+        cors.setAllowedOriginPatterns(Arrays.asList(origins));
+        cors.setAllowedMethods(Arrays.asList("POST","GET","PUT","DELETE","PATCH","OPTIONS"));
+        cors.setAllowCredentials(true);
+        cors.setAllowedHeaders(Arrays.asList("Authorization","Content-Type"));
 
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
-        corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        corsConfig.setAllowCredentials(true);
-        corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig);
-        return source;
+        UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
+        src.registerCorsConfiguration("/**", cors);
+        return src;
     }
 
     @Bean
