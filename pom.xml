@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.devsuperior</groupId>
     <artifactId>movieflix</artifactId>
@@ -80,12 +80,10 @@
 
     <build>
         <plugins>
-            <!-- UNIT TESTS -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
-                <!-- padrões default já servem; opcionalmente explicite para deixar claro -->
                 <configuration>
                     <includes>
                         <include>**/Test*.java</include>
@@ -93,7 +91,6 @@
                         <include>**/*Tests.java</include>
                         <include>**/*TestCase.java</include>
                     </includes>
-                    <!-- garantir que IT não cai aqui -->
                     <excludes>
                         <exclude>**/IT*.java</exclude>
                         <exclude>**/*IT.java</exclude>
@@ -102,8 +99,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-
-            <!-- INTEGRATION TESTS -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -114,7 +109,6 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
-                        <!-- padrões default do Failsafe; explicitar para documentação -->
                         <configuration>
                             <includes>
                                 <include>**/IT*.java</include>
@@ -128,5 +122,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
