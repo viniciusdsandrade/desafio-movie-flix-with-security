@@ -1,18 +1,15 @@
-package com.devsuperior.movieflix.controllers.exceptions;
+package com.devsuperior.movieflix.handler;
 
 import java.time.Instant;
 
+import com.devsuperior.movieflix.exceptions.DatabaseException;
+import com.devsuperior.movieflix.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import com.devsuperior.movieflix.dto.StandardErrorDTO;
-import com.devsuperior.movieflix.dto.ValidationErrorDTO;
-import com.devsuperior.movieflix.services.exceptions.DatabaseException;
-import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 

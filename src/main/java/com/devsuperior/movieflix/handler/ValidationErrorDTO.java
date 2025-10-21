@@ -1,4 +1,4 @@
-package com.devsuperior.movieflix.dto;
+package com.devsuperior.movieflix.handler;
 
 import java.util.ArrayList;
 import java.util.List;
