@@ -1,4 +1,4 @@
-package com.devsuperior.movieflix.dto.user;
+package com.devsuperior.movieflix.dto;
 
 import com.devsuperior.movieflix.entities.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
